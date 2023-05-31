@@ -16,4 +16,4 @@
 
 8. Register to have Access
 
-9. You can now chat the server or the technical team about your issue
+9. You can now chat the server and ack as technical team in using this simple chat
