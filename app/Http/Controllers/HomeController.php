@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\chat;
-use App\Models\course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DemoMail;
+use App\Mail\sendEmail;
 
 class HomeController extends Controller
 {
@@ -15,9 +17,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    private chat $ChatRepo;
+
+    public function __construct(chat $ChatRepo)
     {
         $this->middleware('auth');
+        $this->ChatRepo = $ChatRepo;
     }
 
     /**
@@ -31,49 +36,17 @@ class HomeController extends Controller
     }
     public function all_chat(Request $request)
     {
-        // $data = chat::latest();
-        //disable ONLY_FULL_GROUP_BY
-        // DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
+        $data = $this->ChatRepo->getAllChat();
 
-        $data = DB::table('chats')->select('users.name as name', 'users.email as email', 'chats.*')->leftJoin('users', 'users.id', '=', 'chats.user_id')
-
-            ->groupBy('chats.user_id')
-            ->orderBy('chats.id', 'DESC')
-            // ->distinct('chats.user_id')
-            // ->latest();
-            // ->first();
-            ->get();
-
-        // dd($data);
-
-        //re-enable ONLY_FULL_GROUP_BY
-        // DB::statement("SET sql_mode=(SELECT CONCAT(@@sql_mode, ',ONLY_FULL_GROUP_BY'));");
-        // dd($data);
         if ($request->search) {
             $data = $data->where('name', 'LIKE', '%' . $request->search . '%');
         }
-        // $data = $data->paginate($request->length);
 
         return response(['data' => $data], 200);
     }
     public function user_chat(Request $request)
     {
-        $user = Auth::User();
-
-        // $data = chat::latest();
-        $data = chat::select('users.name as name', 'users.email as email', 'chats.*')
-            ->leftJoin('users', 'users.id', '=', 'chats.user_id');
-        if ($request->user_id) {
-            $data = $data->where('chats.user_id', $request->user_id);
-        } else {
-            $data = $data->where('chats.user_id', $user->id);
-        }
-        $data = $data->latest();
-
-        if ($request->search) {
-            $data = $data->where('description', 'LIKE', '%' . $request->search . '%');
-        }
-        $data = $data->paginate($request->length);
+        $data = $this->ChatRepo->getUserChat($request);
 
         return response(['data' => $data], 200);
     }
@@ -101,6 +74,13 @@ class HomeController extends Controller
         $this->validate($request, [
             'description' => 'required|string',
         ]);
+
+
+        Mail::send([], [], function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Simple Chat')
+                ->setBody($user->name . ' Send you a message ', 'text/html');
+        });
 
         chat::create([
             'user_id' => $user->id,

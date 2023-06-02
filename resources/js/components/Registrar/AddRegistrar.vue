@@ -11,32 +11,32 @@
                     <div class="form-group">
                         <label>Name</label>
                         <input v-model="form.name" type="text" class="form-control">
-                        <has-error :form="form" field="name"/>
+                        <has-error :form="form" field="name" />
                     </div>
                     <div class="form-group">
                         <label>First Name</label>
                         <input v-model="form.first_name" type="text" class="form-control">
-                        <has-error :form="form" field="first_name"/>
+                        <has-error :form="form" field="first_name" />
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
                         <input v-model="form.last_name" type="text" class="form-control">
-                        <has-error :form="form" field="last_name"/>
+                        <has-error :form="form" field="last_name" />
                     </div>
                     <div class="form-group">
                         <label>Middle Name</label>
                         <input v-model="form.middle_name" type="text" class="form-control">
-                        <has-error :form="form" field="middle_name"/>
+                        <has-error :form="form" field="middle_name" />
                     </div>
                     <div class="form-group">
                         <label>Extension Name</label>
                         <input v-model="form.extension_name" type="text" class="form-control">
-                        <has-error :form="form" field="extension_name"/>
+                        <has-error :form="form" field="extension_name" />
                     </div>
                     <div class="form-group">
                         <label>Program ID</label>
                         <input v-model="form.program_id" type="text" class="form-control">
-                        <has-error :form="form" field="program_id"/>
+                        <has-error :form="form" field="program_id" />
                     </div>
                     <div class="form-group">
                         <label>Category</label>
@@ -45,7 +45,7 @@
                             <option value="shs">Senior High School</option>
                             <option value="gs">Graduate School</option>
                         </select>
-                        <has-error :form="form" field="category"/>
+                        <has-error :form="form" field="category" />
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -58,44 +58,44 @@
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-    export default {
-        components: {
-            Multiselect
-        },
-        data(){
-            return{
-                form: new Form({
-                    name:'',
-                    first_name:'',
-                    last_name:'',
-                    middle_name:'',
-                    extension_name:'',
-                    program_id:'',
-                    category:'',
-                }),
-                option_permissions:[],
-            }
-        },
-        methods: {
-            create(){
-                this.form.post('/api/registrar/create').then(()=>{
-                    toast.fire({
-                        icon: 'success',
-                        text: 'Data Saved.',
-                    })
-                    this.form.reset();
-                    this.$emit('getData');
-                    $('#add-user').modal('hide');
-                }).catch(()=>{
-                    toast.fire({
-                        icon: 'error',
-                        text: 'Something went wrong!',
-                    })
-                });
-            },
-        },
-        mounted() {
+export default {
+    components: {
+        Multiselect
+    },
+    data() {
+        return {
+            form: new Form({
+                name: '',
+                first_name: '',
+                last_name: '',
+                middle_name: '',
+                extension_name: '',
+                program_id: '',
+                category: '',
+            }),
+            option_permissions: [],
         }
+    },
+    methods: {
+        create() {
+            this.form.post('/api/registrar/create').then(() => {
+                toast.fire({
+                    icon: 'success',
+                    text: 'Data Saved.',
+                })
+                this.form.reset();
+                this.$emit('getData');
+                $('#add-user').modal('hide');
+            }).catch(() => {
+                toast.fire({
+                    icon: 'error',
+                    text: 'Something went wrong!',
+                })
+            });
+        },
+    },
+    mounted() {
     }
+}
 </script>
 
