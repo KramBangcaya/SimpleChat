@@ -35,7 +35,11 @@ class MyEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('testChannel');
+        //Public channel
+        // return new Channel('testChannel');
+
+        //Private channel
+        return new PrivateChannel('testChannel');
     }
 
     public function broadcastAs()

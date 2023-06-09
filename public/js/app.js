@@ -10491,7 +10491,17 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   el: '#app',
   router: _routes__WEBPACK_IMPORTED_MODULE_0__["default"],
   mounted: function mounted() {
-    window.Echo.channel("testChannel").listen('.MyEvent', function (data) {
+    // public channel
+    // window.Echo.channel(`testChannel`)
+    //     .listen('.MyEvent', (data) => {
+    //         toast.fire({
+    //             icon: 'info',
+    //             text: JSON.stringify(data.message),
+    //         });
+    //     });
+
+    //Private Channel
+    window.Echo["private"]("testChannel").listen('.MyEvent', function (data) {
       toast.fire({
         icon: 'info',
         text: JSON.stringify(data.message)

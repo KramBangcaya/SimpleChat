@@ -46,7 +46,17 @@ const app = new Vue({
     el: '#app',
     router,
     mounted() {
-        window.Echo.channel(`testChannel`)
+        // public channel
+        // window.Echo.channel(`testChannel`)
+        //     .listen('.MyEvent', (data) => {
+        //         toast.fire({
+        //             icon: 'info',
+        //             text: JSON.stringify(data.message),
+        //         });
+        //     });
+
+        //Private Channel
+        window.Echo.private(`testChannel`)
             .listen('.MyEvent', (data) => {
                 toast.fire({
                     icon: 'info',
