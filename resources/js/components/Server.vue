@@ -122,7 +122,7 @@ export default {
             this.form.post('/api/create/course').then(() => {
                 toast.fire({
                     icon: 'success',
-                    text: 'Data Saved.',
+                    text: 'Successfully Send.',
                 })
                 this.form.reset();
             }).catch(() => {
@@ -155,7 +155,6 @@ export default {
                     .then(response => {
                         if (response.data.data) {
                             this.option_chat = response.data;
-                            console.log(this.option_chat);
                         }
                     }).catch(error => {
                         this.error = error;

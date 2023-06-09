@@ -41,7 +41,17 @@ Vue.component(
     'forbidden',
     require('./components/Forbidden.vue').default
 );
+
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    mounted() {
+        window.Echo.channel(`testChannel`)
+            .listen('.MyEvent', (data) => {
+                toast.fire({
+                    icon: 'info',
+                    text: JSON.stringify(data.message),
+                });
+            });
+    }
 });

@@ -103,8 +103,28 @@
                 </div>
             </div>
         </div>
+        <div v-if="isLoading" class="loading-screen">
+            Loading...
+        </div>
     </div>
 </template>
+<style>
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: #fff;
+    font-size: 20px;
+}
+</style>
+
 <script>
 export default {
     data() {
@@ -119,23 +139,28 @@ export default {
             option_users: [],
             length: 10,
             search: '',
+            isLoading: false,
         }
     },
     methods: {
         create() {
+            this.isLoading = true;
             this.form.post('/api/create/chat').then(() => {
                 toast.fire({
                     icon: 'success',
-                    text: 'Data Saved.',
+                    text: 'Successfully Send.'
                 })
                 this.form.reset();
                 this.getData();
+                this.isLoading = false;
             }).catch(() => {
                 toast.fire({
                     icon: 'error',
                     text: 'Something went wrong!',
                 })
+                this.isLoading = false;
             });
+
         },
         getData(page) {
             if (typeof page === 'undefined' || page.type == 'keyup' || page.type == 'change' || page.type == 'click') {
@@ -160,7 +185,6 @@ export default {
                     .then(response => {
                         if (response.data.data) {
                             this.option_chat = response.data.data;
-                            console.log(this.option_chat);
                         }
                     }).catch(error => {
                         this.error = error;

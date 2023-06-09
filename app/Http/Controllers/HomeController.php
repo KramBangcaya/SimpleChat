@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Events\MyEvent;
 use App\Mail\DemoMail;
 use App\Mail\sendEmail;
 
@@ -81,6 +82,8 @@ class HomeController extends Controller
                 ->subject('Simple Chat')
                 ->setBody($user->name . ' Send you a message ', 'text/html');
         });
+
+        broadcast(new MyEvent($user->name . ' Send you a message '));
 
         chat::create([
             'user_id' => $user->id,
