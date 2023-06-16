@@ -17,6 +17,11 @@ const routes = [
         name: 'Server',
         component: require('./components/Server.vue').default
     },
+    {
+        path: '/groupchat',
+        name: 'Group Chat',
+        component: require('./components/GroupChat.vue').default
+    },
     //---------------------------------------------------------USER
     {
         path: '/users',

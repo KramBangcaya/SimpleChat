@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Events\MyEvent;
-use App\Mail\DemoMail;
-use App\Mail\sendEmail;
+use App\Events\activeUser;
 
 class HomeController extends Controller
 {
@@ -89,6 +88,19 @@ class HomeController extends Controller
             'user_id' => $user->id,
             'description' => $request->description,
         ]);
+
+        return response(['message' => 'success'], 200);
+    }
+
+    public function group_chat(Request $request)
+    {
+        $user = Auth::User();
+
+        $this->validate($request, [
+            'description' => 'required|string',
+        ]);
+
+        broadcast(new activeUser($request->description, $user));
 
         return response(['message' => 'success'], 200);
     }

@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'create'], function () {
         Route::post('server', [App\Http\Controllers\HomeController::class, 'store_server']);
         Route::post('chat', [App\Http\Controllers\HomeController::class, 'store_chat']);
+        Route::post('groupchat', [App\Http\Controllers\HomeController::class, 'group_chat']);
     });
     Route::group(['prefix' => 'user'], function () {
         Route::get('list', [App\Http\Controllers\API\UserController::class, 'index']);

@@ -54,16 +54,24 @@
                         </li>
                         <li class="nav-item">
                             <router-link to="/Server" class="nav-link">
-                                <i class="nav-icon fas fa-book"></i>
+                                <i class="nav-icon fas fa-server"></i>
                                 <p>
                                     Server
+                                </p>
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/groupchat" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Group Chat
                                 </p>
                             </router-link>
                         </li>
                         {{-- @can('access user') --}}
                             <li class="nav-item">
                                 <router-link to="/users" class="nav-link">
-                                    <i class="nav-icon fas fa-users"></i>
+                                    <i class="nav-icon fas fa-users-cog"></i>
                                     <p>
                                         Users
                                     </p>

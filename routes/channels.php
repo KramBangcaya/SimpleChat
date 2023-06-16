@@ -16,7 +16,13 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
 //Private Channel
 Broadcast::channel('testChannel', function ($user) {
     return !is_null($user);
+});
+
+//Presence Channel
+Broadcast::channel('presence.chat.{id}', function ($user, $id) {
+    return $user;
 });
